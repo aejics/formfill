@@ -1,6 +1,7 @@
 {
     "require": {
         "juoum/giaeconnect": "^1.1.1",
-        "fpdf/fpdf": "^1.86"
+        "fpdf/fpdf": "^1.86",
+        "setasign/fpdf": "^1.8"
     }
 }
