@@ -1,6 +1,11 @@
 # FormFill
 Preenchimento de formulários por via do GIAE
 
+# Informação:
+Todo o futuro código desta aplicação (até chegar ao v2.0) irá ser trabalhado na branch 'dev'. Deve trocar para essa branch para visualizar progresso no código.
+
+O código que se encontra na 'main' funciona, mas não é estável (lento, depende de vários scripts, programado à pressa). O código na branch 'dev' é mais optimizado.
+
 ## Instalação
 
 - Necessário um servidor com PHP
