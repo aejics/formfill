@@ -11,6 +11,10 @@
 <body>
     <?php include 'src/header.php'; ?>
     <?php
+        $env = parse_ini_file('.env');
+        use PHPMailer\PHPMailer\PHPMailer;
+        use PHPMailer\PHPMailer\SMTP;
+        use PHPMailer\PHPMailer\Exception;
         require_once(__DIR__ . "/vendor/autoload.php");
         class PDF extends FPDF
         {
@@ -37,11 +41,33 @@
                 mkdir('filledforms');
                 $nomeficheiro = date('YmdHisv') . ".pdf";
                 $pdf->Output('F', 'filledforms/' . $nomeficheiro);
-                break;
         }
+        $mail = new PHPMailer(true);
+        $mail->isSMTP();
+        $mail->Host       = 'smtp-mail.outlook.com';
+        $mail->SMTPAuth   = true;
+        $mail->Username   = 'a11531@aejics.org';
+        $mail->Password   = $env["pass"];
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+        
+            //Recipients
+        $mail->setFrom('a11531@aejics.org', 'FormFill');
+        $mail->addAddress('a11531@aejics.org', 'Marco Pisco');     //Add a recipient
+        $mail->addCC('marco@marcopisco.com');
+        
+            //Attachments
+        $mail->addAttachment('filledforms/' . $nomeficheiro);         //Add attachments
+        
+            //Content
+        $mail->isHTML(true);                                  //Set email format to HTML
+        $mail->Subject = 'Documento gerado e preenchido';
+        $mail->Body    = mb_convert_encoding('Envio o formulário preenchido por ' . $_COOKIE["nomedapessoa"] . '. Está anexado neste email.', 'ISO-8859-1', 'UTF-8');;
+        
+        $mail->send();
     ?>
     <h2 class="text-center">Documento criado com sucesso!</h1>
-    <p class='font-weight-light text-center'>Caso seja necessário, por favor assine o documento por via de CMD</p>
+    <p class='font-weight-light text-center'>Caso seja necessário, por favor assine o documento por via de CMD. Foi lhe enviado por email.</p>
     <iframe src="/filledforms/<?php echo($nomeficheiro); ?>" type="application/pdf" width="100%" height="390px"></iframe>
     <?php include 'src/footer.php'; ?>
 </body>
