@@ -1,0 +1,25 @@
+{
+    "formid": 1,
+    "nome": "Formulário 1",
+    "campos": [
+        {
+            "idcampo": 1,
+            "descricao": "Nome",
+            "tipo": "date",
+            "obrigatorio": true
+        },
+        {
+            "idcampo": 2,
+            "descricao": "Idade",
+            "tipo": "text",
+            "obrigatorio": false
+        },
+        {
+            "idcampo": 3,
+            "descricao": "Sexo",
+            "tipo": "text",
+            "opcoes": ["Masculino", "Feminino"],
+            "obrigatorio": true
+        }
+    ]
+}
