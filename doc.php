@@ -11,6 +11,9 @@
 <body>
     <?php include 'src/header.php'; ?>
     <?php
+        ini_set('display_errors', 1);
+        ini_set('display_startup_errors', 1);
+        error_reporting(E_ALL);
         $env = parse_ini_file('.env');
         use PHPMailer\PHPMailer\PHPMailer;
         use PHPMailer\PHPMailer\SMTP;
@@ -27,7 +30,10 @@
                 $this->SetFont('Arial', 'B', 20);
                 $this->Cell(0, 10, $titulo, 0, 1, 'C', false);
                 $this->SetFont('Arial', '', 13);
-                $this->MultiCell(0, 10, $texto, 0, 0, '', false);
+                $this->MultiCell(0, 10, $texto, 0, 'J');
+                $this->MultiCell(0, 10, $texto, 0, 'J');
+                $this->MultiCell(0, 10, $texto, 0, 'J');
+                
             }
         }
 
@@ -36,7 +42,7 @@
             case 1:
                 $pdf = new PDF();
                 // Formulário de Falta
-                $texto = mb_convert_encoding('Informo que eu, ' . $_COOKIE['nomedapessoa'] . ', não irei comparecer ao serviço nas datas de ' . $_POST['data_inicio'] . ' até ' . $_POST['data_fim'] . ' por motivo de ' . $_POST['motivo'] . "\r\n\r\n\r\nSobral de Monte Agraço, \r\n" . date('d\/m\/Y'), 'ISO-8859-1', 'UTF-8');
+                $texto = "lol";
                 $pdf->criarDocumento(mb_convert_encoding('Declaração de Falta', 'ISO-8859-1', 'UTF-8'), $texto);
                 mkdir('filledforms');
                 $nomeficheiro = date('YmdHisv') . ".pdf";

@@ -26,8 +26,8 @@
         </div>");
     }
     echo "<p class='h2 mb-4'>{$formulario->nome}</p>";
-    echo "<p class='mb-4'>{$formulario->descricao}</p>";
-    echo "<form action='dbdev.php' method='post'><input type='hidden' name='formid' value='{$_GET["formid"]}'>";
+    echo "<p class='mb-4'>{$formulario->subnomePreenchimento}</p>";
+    echo "<form action='doc.php' method='post'><input type='hidden' name='formid' value='{$_GET["formid"]}'>";
     foreach ($formulario->campos as $index=>$quest){
         echo "<div class='mb-3'>";
         echo "<label for='{$quest->idcampo}' class='form-label'>{$quest->descricao}";
