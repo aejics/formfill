@@ -1,6 +1,7 @@
 {
     "formid": 1,
     "nome": "Formulário 1",
+    "descricao": "Deve preencher este formulário de teste.",
     "campos": [
         {
             "idcampo": 1,
@@ -18,7 +19,6 @@
             "idcampo": 3,
             "descricao": "Sexo",
             "tipo": "text",
-            "opcoes": ["Masculino", "Feminino"],
             "obrigatorio": true
         }
     ]
