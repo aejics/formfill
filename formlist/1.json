@@ -1,24 +1,89 @@
 {
-    "formid": 1,
-    "nome": "Formulário 1",
+    "nome": "Formulário 1 de Exemplo",
     "descricao": "Deve preencher este formulário de teste.",
     "campos": [
         {
             "idcampo": 1,
-            "descricao": "Nome",
-            "tipo": "date",
+            "descricao": "Color",
+            "tipo": "color",
             "obrigatorio": true
         },
         {
             "idcampo": 2,
-            "descricao": "Idade",
-            "tipo": "text",
-            "obrigatorio": false
+            "descricao": "Date",
+            "tipo": "date",
+            "obrigatorio": true
         },
         {
             "idcampo": 3,
-            "descricao": "Sexo",
+            "descricao": "Datetime-local",
+            "tipo": "datetime-local",
+            "obrigatorio": true
+        },
+        {
+            "idcampo": 4,
+            "descricao": "Email",
+            "tipo": "email",
+            "obrigatorio": true
+        },
+        {
+            "idcampo": 5,
+            "descricao": "File",
+            "tipo": "file",
+            "obrigatorio": true
+        },
+        {
+            "idcampo": 6,
+            "descricao": "Hidden",
+            "tipo": "hidden",
+            "obrigatorio": true
+        },
+        {
+            "idcampo": 7,
+            "descricao": "Number",
+            "tipo": "number",
+            "obrigatorio": true
+        },
+        {
+            "idcampo": 8,
+            "descricao": "Password",
+            "tipo": "password",
+            "obrigatorio": true
+        },
+        {
+            "idcampo": 9,
+            "descricao": "Range",
+            "tipo": "range",
+            "obrigatorio": true
+        },
+        {
+            "idcampo": 10,
+            "descricao": "Reset",
+            "tipo": "reset",
+            "obrigatorio": true
+        },
+        {
+            "idcampo": 11,
+            "descricao": "Tel",
+            "tipo": "tel",
+            "obrigatorio": true
+        },
+        {
+            "idcampo": 12,
+            "descricao": "Text",
             "tipo": "text",
+            "obrigatorio": true
+        },
+        {
+            "idcampo": 13,
+            "descricao": "Time",
+            "tipo": "time",
+            "obrigatorio": true
+        },
+        {
+            "idcampo": 14,
+            "descricao": "Url",
+            "tipo": "url",
             "obrigatorio": true
         }
     ]

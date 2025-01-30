@@ -27,9 +27,7 @@
         else {
             setcookie("loggedin", "true", time() + 3599, "/");
             setcookie("session", $giae->session, time() + 3599, "/");
-            setcookie("nomedapessoa", $config['nomeutilizador'], time() + 3599, "/");
-            setcookie("username", $_POST["user"], time() + 3599, "/");
-            setcookie("password", $_POST["pass"], time() + 3599, "/");
+            setcookie("user", $_POST["user"], time() + 3599, "/");
             header('Location: /');
         }
     ?>
