@@ -18,7 +18,6 @@
     <body>
         <?php include 'src/verifsessaovalida.php'; ?>
         <?php include 'src/header.php'; ?>
-        <?php include 'src/navbar.php'; ?>
         <br>
         <?php 
             if (isset($_COOKIE["loggedin"])) {
