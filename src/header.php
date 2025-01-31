@@ -23,7 +23,7 @@
       <img class='fotoutente' src='https://giae.aejics.org/" . $fotoutente . "'>  A Minha Área
       </button>
       <ul class='dropdown-menu' aria-labelledby='dropdownMenuButton'>
-      <li><a class='dropdown-item' href='/logout.php'>Terminar sessão</a></li>
+      <li><a class='dropdown-item' href='/login.php?action=logout'>Terminar sessão</a></li>
     </ul>
     </div>";
   }
