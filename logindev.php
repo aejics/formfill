@@ -10,25 +10,52 @@
     <link href="/css/main.css" rel="stylesheet">
 </head>
 <body>
-    <?php require 'src/header.php'; ?>
+    <?php include 'src/header.php'; ?>
     <br>
     <div class='h-100 d-flex align-items-center justify-content-center flex-column'>
 <?php
     require_once(__DIR__ . "/vendor/autoload.php");
-    if ($_GET["action"] = "login"){
-        die("login");
-    };
-    if ($_GET["action"] = "logout"){
-        die("logout");
-    };
+    if ($_COOKIE["loggedin"] !== true && $_GET["action"] !== "loginform") {
+        header('Location: /logindev.php?action=loginform');
+    }
+    if ($_GET["action"] == "loginform"){
+        print("<div class='h-100 d-flex align-items-center justify-content-center flex-column'>
+            <p class='h2 mb-4'>Autentique-se via GIAE AEJICS</p>
+            <p class='mb-4'>Utilize as credenciais do GIAE AEJICS para continuar para <b>FormFill</b></p>
+            <form action='/login.php?action=login' method='POST' class='w-200' style='max-width: 600px;'>
+                <div class='mb-3'>
+                    <label for='user' class='form-label'>Nome de utilizador <b class='required'>*</b>:</label>
+                    <input type='text' class='form-control' id='user' name='user' required autofocus placeholder='fxxxx ou axxxxx'>
+                </div>
+                <div class='mb-3'>
+                    <label for='pass' class='form-label'>Palavra-passe <b class='required'>*</b>:</label>
+                    <input type='password' class='form-control' id='pass' name='pass' required placeholder='********'>
+                </div>
+                <button type='submit' class='btn btn-primary w-100'>Iniciar sessão</button>
+                <hr>
+                <p class='h6'><i>Problemas a fazer login? Contacte o Apoio Informático.</i></p>
+            </form>
+            <hr>
+        </div>");
+    }
+    else if (!isset($_COOKIE["loggedin"])) {
+        header('Location: /logindev.php?action=loginform');
+    }
     if (isset($_COOKIE["loggedin"])){
         $giae = new \juoum\GiaeConnect\GiaeConnect("giae.aejics.org");
         $giae->session=$_COOKIE["session"];
         // Este código funciona especificamente com a maneira de verificação no GIAE AEJICS.
         // Pode não funcionar da mesma maneira nos outros GIAEs. Caso não funcione na mesma maneira, corriga este código e faça um pull request!
         if (str_contains($giae->getConfInfo(), 'Erro do Servidor')){
-            header('Location: /logout.php');
+            header('Location: /login.php?action=logout');
         }
+        die("A sua sessão expirou");
     }
+    else if ($_GET["action"] == "login"){
+        die("login");
+    };
+    if ($_GET["action"] == "logout"){
+        die("logout");
+    };
+    require 'src/footer.php';
 ?>
-    <?php require 'src/footer.php'; ?>

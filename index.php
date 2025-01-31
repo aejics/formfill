@@ -16,10 +16,10 @@
         error_reporting(E_ALL);
     ?>
     <body>
-        <?php include 'src/verifsessaovalida.php'; ?>
         <?php include 'src/header.php'; ?>
         <br>
-        <?php 
+        <?php
+            require 'logindev.php';
             if (isset($_COOKIE["loggedin"])) {
                 echo("
                 <div class='h-100 d-flex align-items-center justify-content-center flex-column'>
@@ -29,9 +29,8 @@
                     <p class='h6'>Documento para informar de futura falta.</p>
                     <p class='h6'><i>Deve ser preenchido com sessão do declarador</i></p></button>
                 ");
-            }
+            };
+            require 'src/footer.php';
         ?>
-        <?php include 'src/loginform.php'; ?>
-        <?php include 'src/footer.php'; ?>
     </body>
 </html>
