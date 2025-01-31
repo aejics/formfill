@@ -10,6 +10,7 @@
             <p class='h6'><i>Deve ser preenchido com sessão do declarador</i></p></button>
         ");
     };
-        ?>
+    require 'src/footer.php';
+?>
     </body>
 </html>

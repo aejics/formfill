@@ -10,12 +10,12 @@
     <link href="/src/main.css" rel="stylesheet">
 </head>
 <body>
-    <?php include 'src/header.php'; ?>
+    <?php require 'src/header.php'; ?>
     <br>
     <div class='h-100 d-flex align-items-center justify-content-center flex-column'>
 <?php
     require_once(__DIR__ . "/vendor/autoload.php");
-    if ($_COOKIE["loggedin"] !== true && $_GET["action"] !== "loginform") {
+    if (!isset($_COOKIE["loggedin"]) && $_GET["action"] !== "loginform" && $_GET["action"] !== "login"){
         header('Location: /login.php?action=loginform');
     }
     if ($_GET["action"] == "loginform"){
@@ -38,25 +38,13 @@
             <hr>
         </div>");
     }
-    else if (!isset($_COOKIE["loggedin"])) {
-        header('Location: /login.php?action=loginform');
-    }
-    if (isset($_COOKIE["loggedin"])){
-        $giae = new \juoum\GiaeConnect\GiaeConnect("giae.aejics.org");
-        $giae->session=$_COOKIE["session"];
-        // Este código funciona especificamente com a maneira de verificação no GIAE AEJICS.
-        // Pode não funcionar da mesma maneira nos outros GIAEs. Caso não funcione na mesma maneira, corriga este código e faça um pull request!
-        if (str_contains($giae->getConfInfo(), 'Erro do Servidor')){
-            header('Location: /login.php?action=logout');
-        }
-        die("A sua sessão expirou");
-    }
-    else if ($_GET["action"] == "login"){
+    if ($_GET["action"] == "login"){
         $giae = new \juoum\GiaeConnect\GiaeConnect("giae.aejics.org", $_POST["user"], $_POST["pass"]);
         $config = json_decode($giae->getConfInfo(), true);
         if (str_contains($giae->getConfInfo(), 'Erro do Servidor')){
-            echo("<div class='alert alert-danger text-center' role='alert'>A sua palavra-passe está errada.
-                </div>");
+            echo("<div class='alert alert-danger text-center' role='alert'>A sua palavra-passe está errada.</div>
+            <div class='text-center'>
+            <button type='button' class='btn btn-primary w-100' onclick='history.back()'>Voltar</button></div>");
         }
         else {
             setcookie("loggedin", "true", time() + 3599, "/");
@@ -65,15 +53,24 @@
             header('Location: /');
         }
     };
+    if (isset($_COOKIE["loggedin"])){
+        $giae = new \juoum\GiaeConnect\GiaeConnect("giae.aejics.org");
+        $giae->session=$_COOKIE["session"];
+        // Este código funciona especificamente com a maneira de verificação no GIAE AEJICS.
+        // Pode não funcionar da mesma maneira nos outros GIAEs. Caso não funcione na mesma maneira, corriga este código e faça um pull request!
+        if (str_contains($giae->getConfInfo(), 'Erro do Servidor')){
+            header('Location: /login.php?action=logout');
+            die("A sua sessão expirou");
+        }
+    };
     if ($_GET["action"] == "logout"){
         $giae = new \juoum\GiaeConnect\GiaeConnect("giae.aejics.org");
         $giae->session=$_COOKIE["session"];
         $giae->logout();
         setcookie("loggedin", "", time() - 3600, "/");
-        echo("<div class='alert alert-success text-center' role='alert'>
-            A sua sessão foi terminada com sucesso, ou então expirou.
-            Será redirecionado para a página inicial em 5 segundos.
-            </div>");
-    };
+        echo("<div class='alert alert-success text-center' role='alert'>A sua sessão foi terminada com sucesso.</div>
+        <div class='text-center'>
+        <button type='button' class='btn btn-primary w-100' onclick='history.back()'>Voltar</button></div>");
     require 'src/footer.php';
+    };
 ?>
