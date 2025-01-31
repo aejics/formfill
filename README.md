@@ -8,8 +8,7 @@ O código que se encontra na 'main' funciona, mas não é estável (lento, depen
 
 ## Instalação
 
-- PHP (com o módulo php-pgsql instalado)
-- Servidor PostgreSQL
+- PHP (com o módulo php-sqlite3 instlaado)
 - Composer
 - Com o composer, fazer `composer install` para instalar as dependências do PHP
 
