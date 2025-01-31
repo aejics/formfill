@@ -26,8 +26,7 @@
             echo("<div class='alert alert-success text-center' role='alert'>
                 A sua sessão foi terminada com sucesso, ou então expirou.
                 Será redirecionado para a página inicial em 5 segundos.
-                </div>
-                ")
+                </div>");
         ?>
         <?php include 'src/footer.php'; ?>
     </body>
