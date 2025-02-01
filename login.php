@@ -25,21 +25,25 @@
         print("<div class='h-100 d-flex align-items-center justify-content-center flex-column'>
             <p class='h2 mb-4'>Autentique-se via GIAE AEJICS</p>
             <p class='mb-4'>Utilize as credenciais do GIAE AEJICS para continuar para <b>FormFill</b></p>
+            <main class='form-signin w-100 m-auto'>
             <form action='/login.php?action=login' method='POST' class='w-200' style='max-width: 600px;'>
-                <div class='mb-3'>
-                    <label for='user' class='form-label'>Nome de utilizador <b class='required'>*</b>:</label>
-                    <input type='text' class='form-control' id='user' name='user' required autofocus placeholder='fxxxx ou axxxxx'>
+                <div class='form-floating'>
+                    <input type='text' class='form-control' id='user' name='user' required placeholder='fxxxx ou axxxxx'>
+                    <label for='user' class='form-label'>Nome de utilizador</label>
                 </div>
-                <div class='mb-3'>
-                    <label for='pass' class='form-label'>Palavra-passe <b class='required'>*</b>:</label>
+                <br>
+                <div class='form-floating'>
                     <input type='password' class='form-control' id='pass' name='pass' required placeholder='********'>
+                    <label for='pass' class='form-label'>Palavra-passe</label>
                 </div>
+                <br> 
                 <button type='submit' class='btn btn-primary w-100'>Iniciar sessão</button>
                 <hr>
-                <p class='h6'><i>Problemas a fazer login? Contacte o Apoio Informático.</i></p>
             </form>
-            <hr>
+            </main>
+            <p class='h6'><i>Problemas a fazer login? Contacte o Apoio Informático.</i></p>
         </div>");
+        include 'src/footer.php';
     }
     if ($action == "login"){
         $user = filter_input(INPUT_POST, 'user', FILTER_UNSAFE_RAW);
