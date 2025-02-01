@@ -1,7 +1,7 @@
 <?php
   // Esta parte de configuração serve para mostrar uma mensagem no topo do painel.
   $mensagem_ativada = true;
-  $mensagem_header = "Este painel está em desenvolvimento, e não está estável para uma utilização em prod.";
+  $mensagem_header = "Este painel está em desenvolvimento pesado. Bugs? Report an issue on GitHub!";
   $mensagem_tipo = "info";
   // ^^ Tipos de mensagem: primary, secondary, success, danger, warning, info, light, dark
   if ($mensagem_ativada){
