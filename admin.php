@@ -55,7 +55,7 @@
                 while ($row = $result->fetchArray()) {
                     $nome = utf8_encode($row[1]);
                     $nomecompleto = utf8_encode($row[2]);
-                    echo "<tr><td>$row[0]</td><td>$nome</td><td>$nomecompleto</td><td>$row[3]</td><td><a href='/admin.php?action=gestao_cache&subaction=edit&user=$row[0]'>EDITAR</a>  <a href='/admin.php?action=gestao_cache&subaction=edit&user=$row[0]'>APAGAR</a></tr>";
+                    echo "<tr><td>$row[0]</td><td>$nome</td><td>$nomecompleto</td><td>$row[3]</td><td><a href='/admin.php?action=gestao_cache&subaction=edit&user=$row[0]'>EDITAR</a>  <a href='/admin.php?action=gestao_cache&subaction=delete&user=$row[0]'>APAGAR</a></tr>";
                 }
                 $db->close();
             }
