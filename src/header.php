@@ -10,6 +10,7 @@
   }
 ?>
 <?php
+  $db = new SQLite3('db.sqlite3');
   echo "<nav class='navbar navbar-expand-lg navbar-light bg-light justify-content-center'>
   <a class='navbar-brand' href='/'>FormFill</a>
   <div class='dropdown'>";
@@ -18,12 +19,15 @@
     $giae = new \juoum\GiaeConnect\GiaeConnect("giae.aejics.org");
     $giae->session=$_COOKIE["session"];
     $config = json_decode($giae->getConfInfo(), true);
+
     echo "<button class='btn btn-secondary dropdown-toggle' type='button' id='areaMenuButton' data-bs-toggle='dropdown' aria-expanded='false'>
       <img class='fotoutente' src='https://giae.aejics.org/" . $config['fotoutente'] . "'>  A Minha Área
       </button>
       <ul class='dropdown-menu' aria-labelledby='dropdownMenuButton'>
-      <li><a class='dropdown-item' href='/login.php?action=logout'>Terminar sessão</a></li>
-    </ul>
+      <li><a class='dropdown-item' href='/'>Preencher Formulários</a></li>";
+    echo "<li><a class='dropdown-item' href='/'>Painel Administrativo</a></li>";
+    echo "<li><a class='dropdown-item' href='/login.php?action=logout'>Terminar sessão</a></li>";
+    echo "</ul>
     </div>";
   }
   echo "</nav>";

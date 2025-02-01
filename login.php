@@ -79,7 +79,8 @@
         if (str_contains($giae->getConfInfo(), 'Erro do Servidor')){
             setcookie("loggedin", "", time() - 3600, "/");
             die("<div class='alert alert-danger text-center' role='alert'>A sua sessão expirou.</div>
-            <button type='button' class='btn btn-primary w-100' onclick='history.back()'>Voltar</button>");
+            <div class='text-center'>
+            <button type='button' class='btn btn-primary w-100' onclick='history.back()'>Voltar</button></div>");
         }
     }
     if ($action == "logout"){

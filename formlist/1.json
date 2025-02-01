@@ -21,5 +21,9 @@
             "tipo": "text",
             "obrigatorio": true
         }
-    ]
+    ],
+    "doc": {
+        "criar": true,
+        "texto": "Eu, §nomecompleto§, declaro que durante as datas de &datainicio& e &datafim& estive impossibilitado de comparecer ao trabalho devido a &motivo&."
+    }    
 }
