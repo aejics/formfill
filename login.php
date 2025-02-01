@@ -14,9 +14,6 @@
     <br>
     <div class='h-100 d-flex align-items-center justify-content-center flex-column'>
 <?php
-    ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
-    error_reporting(E_ALL);
     require_once(__DIR__ . "/vendor/autoload.php");
     $db = new SQLite3('db.sqlite3');
     $action = filter_input(INPUT_GET, 'action', FILTER_UNSAFE_RAW);
@@ -88,5 +85,4 @@
         <div class='text-center'>
         <button type='button' class='btn btn-primary w-100' onclick='history.back()'>Voltar</button></div>");
     };
-    require 'src/footer.php';
 ?>
