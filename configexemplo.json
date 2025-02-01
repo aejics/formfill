@@ -1,0 +1,16 @@
+{
+    "mail": {
+        "servidor": "smtp.gmail.com",
+        "porta": 465,
+        "autenticacao": true,
+        "tipodeseguranca": "PHPMailer::ENCRYPTION_STARTTLS",
+        "tipodeseguranca": "PHPMailer::ENCRYPTION_SMTPS",
+        "mail": "",
+        "password": ""
+    },
+    "header": {
+        "ativado": true,
+        "mensagem": "Altere-me em config.json!",
+        "tipo": "info"
+    }
+}

@@ -91,6 +91,11 @@
     "doc": {
         "criar": true,
         "texto": "§nomecompleto§, §nome§, §id§ e §email§ para DB, &idcampo& para dados do campo, #data# para data."
-    }    
-
+    },
+    "emailtext": {
+        "assuntoconfirmacao": "Confirmação do preenchimento do formulário de exemplo",
+        "confirmacao": "Estimado §nome§, enviamos confirmação do preenchimento do formulário. \n\nCom os melhores comprimentos,\nA equipa AEJICS.",
+        "assuntonotificacao": "Resposta ao preenchimento do formulário de exemplo",
+        "notificacao": "Estimado §nome§, informamos que existiu uma resposta ao seu preenchimento do formulário. A resposta enviada foi:\n §resposta§ \n\n Com os melhores cumprimentos, \nA equipa AEJICS."
+    }
 }

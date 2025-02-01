@@ -15,7 +15,6 @@
     <div class='h-100 d-flex align-items-center justify-content-center flex-column'>
 <?php
     require_once(__DIR__ . "/vendor/autoload.php");
-    $db = new SQLite3('db.sqlite3');
     $action = filter_input(INPUT_GET, 'action', FILTER_UNSAFE_RAW);
     $loggedin = filter_input(INPUT_COOKIE, 'loggedin', FILTER_UNSAFE_RAW);
     if (!$loggedin && $action !== "loginform" && $action !== "login"){
@@ -61,12 +60,14 @@
             setcookie("loggedin", "true", time() + 3599, "/");
             setcookie("session", $giae->session, time() + 3599, "/");
             setcookie("user", $_POST["user"], time() + 3599, "/");
+            $db = new SQLite3('db.sqlite3');
             $valordb = $db->prepare("INSERT INTO cache_giae(id, nome, nomecompleto, email) VALUES (:1, :2, :3, :4);");
             $valordb->bindValue(':1', mb_convert_encoding($_POST["user"], 'ISO-8859-1', 'auto'), SQLITE3_TEXT);
             $valordb->bindValue(':2', mb_convert_encoding($config['nomeutilizador'], 'ISO-8859-1', 'auto'), SQLITE3_TEXT);
             $valordb->bindValue(':3', mb_convert_encoding($perfil['perfil']['nome'], 'ISO-8859-1', 'auto'), SQLITE3_TEXT);
             $valordb->bindValue(':4', mb_convert_encoding($perfil['perfil']['email'], 'ISO-8859-1', 'auto'), SQLITE3_TEXT);
             $valordb->execute();
+            $db->close();
             header('Location: /');
         }
     };

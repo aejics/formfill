@@ -24,6 +24,12 @@
     ],
     "doc": {
         "criar": true,
-        "texto": "Eu, §nomecompleto§, declaro que durante as datas de &datainicio& e &datafim& estive impossibilitado de comparecer ao trabalho devido a &motivo&."
-    }    
+        "texto": "Eu, §nomecompleto§, declaro que durante as datas de &datainicio& e &datafim& estive impossibilitado de comparecer ao trabalho devido a &motivo&.\n\nSobral de Monte Agraço,\n#data#"
+    },
+    "emailtext": {
+        "assuntoconfirmacao": "Confirmação do preenchimento do formulário de declaração de falta",
+        "confirmacao": "Estimado §nome§, enviamos confirmação do preenchimento do formulário de falta. \n\nCom os melhores comprimentos,\nA equipa AEJICS.",
+        "assuntonotificacao": "Resposta ao preenchimento do formulário de declaração de falta",
+        "notificacao": "Estimado §nome§, informamos que existiu uma resposta ao seu preenchimento do formulário. A resposta enviada foi:\n §resposta§ \n\n Com os melhores cumprimentos, \nA equipa AEJICS."
+    }
 }
