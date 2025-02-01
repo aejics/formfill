@@ -1,6 +1,6 @@
 <?php
   // Esta parte de configuração serve para mostrar uma mensagem no topo do painel.
-  $mensagem_ativada = true;
+  $mensagem_ativada = false;
   $mensagem_header = "Este painel está em desenvolvimento pesado. Bugs? Report an issue on GitHub!";
   $mensagem_tipo = "info";
   // ^^ Tipos de mensagem: primary, secondary, success, danger, warning, info, light, dark
@@ -10,7 +10,12 @@
   }
 ?>
 <?php
+  ini_set('display_errors', 1);
+  ini_set('display_startup_errors', 1);
+  error_reporting(E_ALL);
   $db = new SQLite3('db.sqlite3');
+  $isAdmin = $db->querySingle("SELECT * from admins WHERE id = '{$_COOKIE["user"]}' AND atividade = true");
+  $db->close();
   echo "<nav class='navbar navbar-expand-lg navbar-light bg-light justify-content-center'>
   <a class='navbar-brand' href='/'>FormFill</a>
   <div class='dropdown'>";
@@ -25,7 +30,9 @@
       </button>
       <ul class='dropdown-menu' aria-labelledby='dropdownMenuButton'>
       <li><a class='dropdown-item' href='/'>Preencher Formulários</a></li>";
-    echo "<li><a class='dropdown-item' href='/'>Painel Administrativo</a></li>";
+    if ($isAdmin) {
+      echo "<li><a class='dropdown-item' href='/admin.php'>Painel Administrativo</a></li>";
+    }
     echo "<li><a class='dropdown-item' href='/login.php?action=logout'>Terminar sessão</a></li>";
     echo "</ul>
     </div>";

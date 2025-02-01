@@ -3,6 +3,7 @@
     $db = new SQLite3('db.sqlite3');
     $dbinfo = $db->query("SELECT * FROM cache_giae WHERE id = '{$_COOKIE["user"]}'");
     $nome = utf8_encode($dbinfo->fetchArray()[1]);
+    $db->close();
     if (isset($_COOKIE["loggedin"])) {
         echo("
         <div class='h-100 d-flex align-items-center justify-content-center flex-column'>
