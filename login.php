@@ -14,11 +14,17 @@
     <br>
     <div class='h-100 d-flex align-items-center justify-content-center flex-column'>
 <?php
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
     require_once(__DIR__ . "/vendor/autoload.php");
-    if (!isset($_COOKIE["loggedin"]) && $_GET["action"] !== "loginform" && $_GET["action"] !== "login"){
+    $db = new SQLite3('db.sqlite3');
+    $action = filter_input(INPUT_GET, 'action', FILTER_UNSAFE_RAW);
+    $loggedin = filter_input(INPUT_COOKIE, 'loggedin', FILTER_UNSAFE_RAW);
+    if (!$loggedin && $action !== "loginform" && $action !== "login"){
         header('Location: /login.php?action=loginform');
-    };
-    if ($_GET["action"] == "loginform"){
+    }
+    if ($action == "loginform"){
         print("<div class='h-100 d-flex align-items-center justify-content-center flex-column'>
             <p class='h2 mb-4'>Autentique-se via GIAE AEJICS</p>
             <p class='mb-4'>Utilize as credenciais do GIAE AEJICS para continuar para <b>FormFill</b></p>
@@ -38,10 +44,13 @@
             <hr>
         </div>");
     }
-    if ($_GET["action"] == "login"){
-        $giae = new \juoum\GiaeConnect\GiaeConnect("giae.aejics.org", $_POST["user"], $_POST["pass"]);
+    if ($action == "login"){
+        $user = filter_input(INPUT_POST, 'user', FILTER_UNSAFE_RAW);
+        $pass = filter_input(INPUT_POST, 'pass', FILTER_UNSAFE_RAW);
+        $giae = new \juoum\GiaeConnect\GiaeConnect("giae.aejics.org", $user, $pass);
         $config = json_decode($giae->getConfInfo(), true);
-        if (str_contains($giae->getConfInfo(), 'Erro do Servidor')){
+        $perfil = json_decode($giae->getPerfil(), true);
+        if (strpos($giae->getConfInfo(), 'Erro do Servidor') !== false){
             echo("<div class='alert alert-danger text-center' role='alert'>A sua palavra-passe está errada.</div>
             <div class='text-center'>
             <button type='button' class='btn btn-primary w-100' onclick='history.back()'>Voltar</button></div>");
@@ -50,10 +59,17 @@
             setcookie("loggedin", "true", time() + 3599, "/");
             setcookie("session", $giae->session, time() + 3599, "/");
             setcookie("user", $_POST["user"], time() + 3599, "/");
+            $valordb = $db->prepare("INSERT INTO cache_giae(id, nome, nomecompleto, email) VALUES (:1, :2, :3, :4);");
+            $valordb->bindValue(':1', mb_convert_encoding($_POST["user"], 'ISO-8859-1', 'auto'), SQLITE3_TEXT);
+            $valordb->bindValue(':2', mb_convert_encoding($config['nomeutilizador'], 'ISO-8859-1', 'auto'), SQLITE3_TEXT);
+            $valordb->bindValue(':3', mb_convert_encoding($perfil['perfil']['nome'], 'ISO-8859-1', 'auto'), SQLITE3_TEXT);
+            $valordb->bindValue(':4', mb_convert_encoding($perfil['perfil']['email'], 'ISO-8859-1', 'auto'), SQLITE3_TEXT);
+            $valordb->execute();
             header('Location: /');
         }
     };
-    if (isset($_COOKIE["loggedin"])){
+    if ($loggedin){
+        $giae->session = filter_input(INPUT_COOKIE, 'session', FILTER_UNSAFE_RAW);
         $giae = new \juoum\GiaeConnect\GiaeConnect("giae.aejics.org");
         $giae->session=$_COOKIE["session"];
         // Este código funciona especificamente com a maneira de verificação no GIAE AEJICS.
@@ -62,8 +78,8 @@
             header('Location: /login.php?action=logout');
             die("A sua sessão expirou");
         }
-    };
-    if ($_GET["action"] == "logout"){
+    }
+    if ($action == "logout"){
         $giae = new \juoum\GiaeConnect\GiaeConnect("giae.aejics.org");
         $giae->session=$_COOKIE["session"];
         $giae->logout();
@@ -71,6 +87,6 @@
         echo("<div class='alert alert-success text-center' role='alert'>A sua sessão foi terminada com sucesso.</div>
         <div class='text-center'>
         <button type='button' class='btn btn-primary w-100' onclick='history.back()'>Voltar</button></div>");
-    require 'src/footer.php';
     };
+    require 'src/footer.php';
 ?>

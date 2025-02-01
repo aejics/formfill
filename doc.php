@@ -6,7 +6,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <title>FormFill - Documento Criado</title>
-    <link href="/css/main.css" rel="stylesheet">
+    <link href="/src/main.css" rel="stylesheet">
 </head>
 <body>
     <?php include 'src/header.php'; ?>
@@ -25,8 +25,8 @@
             {
                 $this->AddPage();
                 $this->SetXY(10, 40);
-                $this->Image("img/logoaejics.png", 10, 10, 20);
-                $this->Image("img/logominedu.png", 130, 15, 65);
+                $this->Image("src/logoaejics.png", 10, 10, 20);
+                $this->Image("src/logominedu.png", 130, 15, 65);
                 $this->SetFont('Arial', 'B', 20);
                 $this->Cell(0, 10, $titulo, 0, 1, 'C', false);
                 $this->SetFont('Arial', '', 13);
@@ -42,8 +42,12 @@
             case 1:
                 $pdf = new PDF();
                 // Formulário de Falta
-                $texto = "lol";
-                $pdf->criarDocumento(mb_convert_encoding('Declaração de Falta', 'ISO-8859-1', 'UTF-8'), $texto);
+                $db = new SQLite3('db.sqlite3');
+                $user = filter_input(INPUT_COOKIE, 'user', FILTER_UNSAFE_RAW);
+                //fetch array 2
+                $result = $db->query("SELECT * FROM cache_giae WHERE id = '{$user}'");
+                $texto = "lol teste {$result->fetchArray()[2]}";
+                $pdf->criarDocumento(utf8_decode('Declaração de Falta'), $texto);
                 mkdir('filledforms');
                 $nomeficheiro = date('YmdHisv') . ".pdf";
                 $pdf->Output('F', 'filledforms/' . $nomeficheiro);
@@ -68,7 +72,7 @@
             //Content
         $mail->isHTML(true);                                  //Set email format to HTML
         $mail->Subject = 'Documento gerado e preenchido';
-        $mail->Body    = mb_convert_encoding('Envio o formulário preenchido por ' . $_COOKIE["nomedapessoa"] . '. Está anexado neste email.', 'ISO-8859-1', 'UTF-8');;
+        $mail->Body    = utf8_decode('Envio o formulário preenchido por ' . $_COOKIE["nomedapessoa"] . '. Está anexado neste email.');
         
         $mail->send();
     ?>
