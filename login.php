@@ -77,11 +77,10 @@
         // Este código funciona especificamente com a maneira de verificação no GIAE AEJICS.
         // Pode não funcionar da mesma maneira nos outros GIAEs. Caso não funcione na mesma maneira, corriga este código e faça um pull request!
         if (str_contains($giae->getConfInfo(), 'Erro do Servidor')){
-            echo("<div class='alert alert-danger text-center' role='alert'>A sua sessão expirou.</div>
-                <div class='text-center'>
-                <button type='button' class='btn btn-primary w-100' onclick='history.back()'>Voltar</button></div>");
-            }
-            include 'src/footer.php';
+            setcookie("loggedin", "", time() - 3600, "/");
+            die("<div class='alert alert-danger text-center' role='alert'>A sua sessão expirou.</div>
+            <button type='button' class='btn btn-primary w-100' onclick='history.back()'>Voltar</button>");
+        }
     }
     if ($action == "logout"){
         $giae = new \juoum\GiaeConnect\GiaeConnect("giae.aejics.org");
