@@ -32,7 +32,7 @@
     echo "<title>{$formulario->nome} - FormFill</title>"; // Dar título à página
     echo "<p class='h2 mb-4'>{$formulario->nome}</p>"; // Mostrar título na página
     echo "<p class='mb-4'>{$formulario->subnomePreenchimento}</p>"; // Descrição do formulário para o utilizador
-    echo "<form action='doc.php' method='post'><input type='hidden' name='formid' value='{$_GET["formid"]}'>";
+    echo "<form action='devtemp.php' method='post'><input type='hidden' name='formid' value='{$_GET["formid"]}'>";
     // ^ Função HTML para devolver o formulário ao script de documento.
     // Cada campo do formulário gera um label.
     foreach ($formulario->campos as $index=>$quest){

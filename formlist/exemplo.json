@@ -87,5 +87,10 @@
             "tipo": "url",
             "obrigatorio": true
         }
-    ]
+    ],
+    "doc": {
+        "criar": true,
+        "texto": "§nomecompleto§, §nome§, §id§ e §email§ para DB, &idcampo& para dados do campo, #data# para data."
+    }    
+
 }

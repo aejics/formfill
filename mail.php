@@ -1,4 +1,8 @@
 <!--    
+        $env = parse_ini_file('.env');
+        use PHPMailer\PHPMailer\PHPMailer;
+        use PHPMailer\PHPMailer\SMTP;
+        use PHPMailer\PHPMailer\Exception;
         $mail = new PHPMailer(true);
         $mail->isSMTP();
         $mail->Host       = 'smtp-mail.outlook.com';
