@@ -1,3 +1,5 @@
 vendor/
 filledforms/
 .env
+db.sqlite3
+config.json
