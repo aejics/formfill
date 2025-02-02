@@ -30,14 +30,17 @@
                     <a href='/admin.php?section=acessoaopainel' class='nav-link "; if ($_SERVER['REQUEST_URI'] == "/admin.php?section=acessoaopainel") {echo "active";};
                     echo"'>
                         Gestão de Administradores</a></li>
+                    <li>
                 </ul>
                 </div><div class='flex-grow-1 d-flex align-items-center justify-content-center flex-column'>";
-        }
-        if (!$_GET['action'] && !$_GET['section']) {
+        } 
+        if (!$_GET['action'] && !$_GET['section']){
+            echo "<button type='button btn-primary' class='btn btn-primary w-30' onclick='window.open(\"admin.php?action=respostaspendentes\", \"popup\", \"width=1200,height=600,scrollbars=yes,resizable=yes\")'>Gestão de Respostas</button>";
+        }else if ($_GET['action'] == "respostaspendentes") {
             $db = new SQLite3('db.sqlite3');
-            // Dashboard principal
-            echo "<h1>Dashboard</h1>";
-            echo "<div class='d-flex justify-content-between mb-3'><form action='/admin.php' method='POST'>
+            // Responstas pendentes
+            echo "<h1>Respostas pendentes</h1>";
+            echo "<div class='d-flex justify-content-between mb-3'><form action='/admin.php?action=respostaspendentes' method='POST'>
                 <div class='form-floating'>
                 <div class='input-group'>
                     <input type='text' class='form-control' id='buscamanual' name='buscamanual' placeholder='Realizar busca por ID'>
@@ -47,7 +50,7 @@
 
             if ($_POST['buscamanual']) {
                 $buscamanual = $_POST['buscamanual'];
-                $resultadosbusca = $db->query("SELECT * from respostas WHERE enviadorid = '{$buscamanual}'");
+                $resultadosbusca = $db->query("SELECT * from respostas WHERE enviadorid LIKE '%{$buscamanual}%' ORDER BY pdf ASC");
                 echo "<p>Busca manual por: {$buscamanual}</p>";
                 echo "<table class='table table-striped table-hover'><thead><tr><th scope='col'>ID</th><th scope='col'>Formulário</th><th scope='col'>Enviado por</th><th scope='col'>Ações</th></tr></thead><tbody>";
                 while ($row = $resultadosbusca->fetchArray()){
@@ -56,23 +59,35 @@
                     echo "<tr>
                     <th scope='row'>{$row[0]}</th>
                     <td>{$nomeformulario} <i>(#{$row[1]})</i></td>
-                    <td>{$nome} <i>($row[2])</i></td>
-                    <td><a onclick='window.open(\"/admin.php?action=viewform&formid={$row[0]}\", \"popup\", \"width=800,height=600,scrollbars=yes,resizable=yes\")' class='btn btn-primary'>Ver</a></td>
+                    <td>{$nome} <i>($row[2])</i></td>";
+                    if ($row[4]){
+                        $nomerespondedor = $db->querySingle("SELECT nome FROM cache_giae WHERE id = '{$row[5]}'");
+                        echo "<td>Sim (por {$nomerespondedor} <i>({$row[5]})</i>)</td>";
+                    } else {
+                        echo "<td>Não</td>";
+                    }    
+                    echo "<td><a onclick='window.open(\"/admin.php?action=viewform&formid={$row[0]}\", \"popup\", \"width=800,height=600,scrollbars=yes,resizable=yes\")' class='btn btn-primary'>Ver</a></td>
                     </tr>";    
                 }
                 echo "</table>";
             }
             echo "<hr><h4>Respostas pendentes:</h4>";
-            $prenchidos = $db->query("SELECT * FROM respostas WHERE respondido = false ORDER BY pdf DESC");
-            echo "<table class='table table-striped table-hover'><thead><tr><th scope='col'>ID</th><th scope='col'>Formulário</th><th scope='col'>Enviado por</th><th scope='col'>Ações</th></tr></thead><tbody>";
+            $prenchidos = $db->query("SELECT * FROM respostas WHERE respondido = false ORDER BY pdf ASC");
+            echo "<table class='table table-striped table-hover'><thead><tr><th scope='col'>ID</th><th scope='col'>Formulário</th><th scope='col'>Enviado por</th><th scope='col'>Respondido</th><th scope='col'>Ações</th></tr></thead><tbody>";
             while ($row = $prenchidos->fetchArray()) {
                 $nome = $db->querySingle("SELECT nome FROM cache_giae WHERE id = '{$row[2]}'");
                 $nomeformulario = json_decode(file_get_contents("formlist/{$row[1]}.json"))->nome;
                 echo "<tr>
                 <th scope='row'>{$row[0]}</th>
                 <td>{$nomeformulario} <i>(#{$row[1]})</i></td>
-                <td>{$nome} <i>($row[2])</i></td>
-                <td><a onclick='window.open(\"/admin.php?action=viewform&formid={$row[0]}\", \"popup\", \"width=800,height=600,scrollbars=yes,resizable=yes\")' class='btn btn-primary'>Ver</a></td>
+                <td>{$nome} <i>($row[2])</i></td>";
+                if ($row[4]){
+                    $nomerespondedor = $db->querySingle("SELECT nome FROM cache_giae WHERE id = '{$row[5]}'");
+                    echo "<td>Sim (por {$nomerespondedor} <i>({$row[5]})</i>)</td>";
+                } else {
+                    echo "<td>Não</td>";
+                }
+                echo "<td><a onclick='window.open(\"/admin.php?action=viewform&formid={$row[0]}\", \"popup\", \"width=800,height=600,scrollbars=yes,resizable=yes\")' class='btn btn-primary'>Ver</a></td>
                 </tr>";
             }
             echo "</table>";
@@ -90,7 +105,7 @@
                 
                 echo "<div class='alert alert-success text-center' role='alert'>Resposta enviada com sucesso.</div>
                         <div class='text-center'>
-                        <button type='button' class='btn btn-primary w-100' onclick='history.back()'>Voltar</button></div>";
+                        <a href='/admin.php?action=respostaspendentes'><button type='button' class='btn btn-primary w-100' >Voltar</button></a></div>";
                 include 'mail.php';
                 $email = $db->querySingle("SELECT email FROM cache_giae WHERE id = '{$db->querySingle("SELECT enviadorid FROM respostas WHERE pdf = '{$formid}'")}'");
                 $nome = $db->querySingle("SELECT nome FROM cache_giae WHERE id = '{$db->querySingle("SELECT enviadorid FROM respostas WHERE pdf = '{$formid}'")}'");
@@ -134,7 +149,7 @@
             echo "<h1>Manutenção</h1><hr>";
             echo "<button type='button btn-primary' class='btn btn-primary w-30' onclick='window.open(\"admin.php?action=gestao_cache\", \"popup\", \"width=1200,height=600,scrollbars=yes,resizable=yes\")'>Gestão Manual da Cache do GIAE</button>";
             echo "<hr>";
-            echo "<button type='button btn-primary' class='btn btn-primary w-30' onclick='window.open(\"admin.php?action=gestao_respostas\", \"popup\", \"width=1200,height=600,scrollbars=yes,resizable=yes\")'>Gestão Manual da Base de Dados</button>";
+            echo "<button type='button btn-primary' class='btn btn-primary w-30' onclick='window.open(\"admin.php?action=gestao_respostas\", \"popup\", \"width=1200,height=600,scrollbars=yes,resizable=yes\")'>Gestão Manual das Respostas</button>";
         } else if ($_GET['section'] == "forms") {
             echo "<h1>Formulários</h1>";
             $formularios = scandir("formlist");
