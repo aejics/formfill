@@ -66,9 +66,8 @@
     // Enviar email com o PDF preenchido
     sendMail($linkpdfpreenchido, $email, $formulario->emailtext->assuntoconfirmacao, $textomail);
 ?>
-    <h2 class="text-center">Formulário preenchido com sucesso!</h1>
+    <h3 class="text-center">Formulário preenchido com sucesso!</h1>
     <p class='font-weight-light text-center'>Foi lhe enviado uma cópia do documento preenchido por email.</p>
-    <iframe src="<?php echo($linkpdfpreenchido); ?>" type="application/pdf" width="100%" height="390px"></iframe>
-    <?php include 'src/footer.php'; ?>
+    <iframe src="<?php echo($linkpdfpreenchido); ?>" type="application/pdf" width="100%" height="400px"></iframe>
 </body>
 </html>
