@@ -1,4 +1,7 @@
 <?php
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
     require('login.php');
     require_once(__DIR__ . "/vendor/autoload.php");
     class PDF extends FPDF
@@ -27,6 +30,7 @@
     $texto = $formulario->doc->texto; // Texto que está na config
     $textomail = $formulario->emailtext->confirmacao; // Texto do mailque está na config
     $db = new SQLite3('db.sqlite3'); // Conectar à Base de Dados
+    $db->exec("CREATE TABLE respostas (pdf VARCHAR(99) UNIQUE NOT NULL, formid VARCHAR(99) NOT NULL, enviadorid VARCHAR(10) UNIQUE NOT NULL, resposta VARCHAR(999), respondido BOOL, respondidoporid VARCHAR(10), PRIMARY KEY (pdf));"); // Criar tabela para guardar dados
     $user = filter_input(INPUT_COOKIE, 'user', FILTER_UNSAFE_RAW); // Ir buscar ID do utilizador
     $dbresult = $db->query("SELECT * FROM cache_giae WHERE id = '{$user}'"); // Buscar dados à DB
     $dbArray = $dbresult->fetchArray(); // Colocar dados num array
@@ -34,7 +38,6 @@
     $nome = utf8_encode($dbArray[1]); // Nome do Utilizador
     $id = utf8_encode($dbArray[0]); // ID do Utilizador
     $email = utf8_encode($dbArray[3]); // Email do Utilizador
-    $db->close();
     // Data de Hoje (# é dados do Sistema)
     $texto = str_replace('#data#', utf8_encode(date('d/m/Y')), $texto);
     $textomail = str_replace('#data#', utf8_encode(date('d/m/Y')), $textomail);
@@ -56,6 +59,13 @@
     $titulo = $formulario->nome;
     // Local do PDF preenchido
     $linkpdfpreenchido = $pdf->criarDocumento(utf8_decode($titulo), utf8_decode($texto));
+    // Guardar dados na Base de Dados
+    $dbInput = $db->prepare("INSERT INTO respostas (pdf, formid, enviadorid, respondido) VALUES (:pdf, :formid, :enviadorid, false)"); // Inserir dados na DB
+    $dbInput->bindValue(':formid', $formid); // Formulário ID
+    $dbInput->bindValue(':enviadorid', $user); // Utilizador ID
+    $dbInput->bindValue(':pdf', $linkpdfpreenchido); // PDF
+    $dbInput->execute(); // Executar
+    $db->close();
     // Enviar email com o PDF preenchido
     sendMail($linkpdfpreenchido, $email, $formulario->emailtext->assuntoconfirmacao, $textomail);
 ?>
