@@ -159,7 +159,7 @@
                   </div><hr>";
             echo "<table class='table'><tr><th scope='col'>ID</th><th scope='col'>NOME</th><th scope='col'>ATIVADO</th><th scope='col'>AÇÕES</th></tr>";
             foreach ($formularios as $formularioatual){
-                if ($formularioatual == "." || $formularioatual == ".." || $formularioatual == "exemplo.json") {continue;};
+                if ($formularioatual == "." || $formularioatual == ".." || $formularioatual == "exemplo.json" || $formularioatual == ".htaccess") {continue;};
                 $formularioatual = preg_replace('/.json$/', '', $formularioatual);
                 $configformularioatual = json_decode(file_get_contents("formlist/{$formularioatual}.json"));
                 echo "<tr><td>$formularioatual</td><td>$configformularioatual->nome</td><td>"; if ($configformularioatual->ativado) {echo "Sim";} else {echo "Não";}; echo "</td><td><a href='/formlist/{$formularioatual}.json' target='_blank'>DESCARREGAR</a> <a href='/form.php?formid={$formularioatual}' target='_blank'>TESTAR</a> <a href='/admin.php?action=toggle_form&formid={$formularioatual}'>TOGGLE</a>  <a href='/admin.php?action=delete_form&formid=$formularioatual'>APAGAR</a></td></tr>";

@@ -12,7 +12,7 @@
             $formularioatual = preg_replace('/.json$/', '', $formularioatual);
             $configformularioatual = json_decode(file_get_contents("formlist/{$formularioatual}.json"));
             if ($configformularioatual->ativado){
-                if ($formularioatual == "." || $formularioatual == ".." || $formularioatual == "exemplo.json") {continue;};      
+                if ($formularioatual == "." || $formularioatual == ".." || $formularioatual == "exemplo.json" || $formularioatual == ".htaccess") {continue;};      
                 echo("
                 <button type='button' class='btn btn-secondary btn-lg btn-block' onclick='window.open(\"form.php?formid={$formularioatual}\", \"popup\", \"width=800,height=600,scrollbars=yes,resizable=yes\")' >
                 {$configformularioatual->nome}
