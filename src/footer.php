@@ -4,4 +4,4 @@ function getLatestCommit() {
 }
 
 echo "<hr><div class='h-100 d-flex align-items-center justify-content-center flex-column'>
-<p class='font-weight-light'><small>(C) " . date('Y') . " Marco Pisco - <a href='https://github.com/marpisco/formfill/commit/" . getLatestCommit() ."'>Version " . getLatestCommit() . "</a> in branch <i>dev</i></small></p>" ?>
+<p class='font-weight-light'><small>(C) " . date('Y') . " AEJICS (coded by Marco Pisco) - <a href='https://github.com/marpisco/formfill/commit/" . getLatestCommit() ."'>Versão " . getLatestCommit() . "</a></i></small></p>" ?>
